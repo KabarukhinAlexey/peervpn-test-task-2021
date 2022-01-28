@@ -33,8 +33,8 @@
     dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/DEBIAN/control"
     content: |
       Package: peervpn
-      Version: 1.0
-      Architecture: adm64
+      Version: {{peervpn_deb_package_version}}
+      Architecture: {{peervpn_deb_package_architecture}}
       Maintainer: Aleksei Kabarukhin <akabarukhin@gmail.com>
       Description: The open source [peer-to-peer VPN](https://peervpn.net/)
        Original Code: https://github.com/peervpn/peervpn
