@@ -7,11 +7,11 @@
 - name: Clone source git repository
   git:
     repo: https://github.com/peervpn/peervpn.git
-    dest: "{{playbook_dir}}/peervpn"
+    dest: "{{playbook_dir}}/peervpn_source_code"
 
 - name: Build source code
   make:
-    chdir: "{{playbook_dir}}/peervpn"
+    chdir: "{{playbook_dir}}/peervpn_source_code"
 
 - name: Create directory sctructure for creating deb package
   file:
@@ -25,7 +25,7 @@
 
 - name: Copy executable file to working directory for deb package
   copy: 
-    src: "{{playbook_dir}}/peervpn/peervpn"
+    src: "{{playbook_dir}}/_source_code/peervpn"
     dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/usr/local/bin/"
 
 - name: Create control file for deb package
