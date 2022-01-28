@@ -1,0 +1,14 @@
+---
+packages_list_for_build:
+  - build-essential
+  - git
+  - debhelper
+  - libssl1.0-dev
+  - libcrypto++-dev
+  - zlib1g-dev
+  - uml-utilities
+
+peervpn_deb_package_version: "1.0"
+peervpn_deb_package_architecture: "amd64"
+
+repo_url: localhost

@@ -1,0 +1,4 @@
+- hosts: localhost
+  become_user: root
+  roles:
+    - role: peervpn_role

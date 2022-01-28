@@ -1,0 +1,44 @@
+---
+- name: Install packages for builaingd source code
+  package:
+    name: "{{ packages_list_for_build }}"
+    state: present
+
+- name: Clone source git repository
+  git:
+    repo: https://github.com/peervpn/peervpn.git
+    dest: "{{playbook_dir}}/peervpn"
+
+- name: Build source code
+  make:
+    chdir: "{{playbook_dir}}/peervpn"
+
+- name: Create directory sctructure for creating deb package
+  file:
+    path: "{{ item }}"
+    recurse: yes
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/usr/local/bin"
+    - "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/DEBIAN"
+
+- name: Copy executable file to working directory for deb package
+  copy: 
+    src: "{{playbook_dir}}/peervpn/peervpn"
+    dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/usr/local/bin/"
+
+- name: Create control file for deb package
+  copy:
+    dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/DEBIAN/control"
+    content: |
+      Package: peervpn
+      Version: 1.0
+      Architecture: adm64
+      Maintainer: Aleksei Kabarukhin <akabarukhin@gmail.com>
+      Description: The open source [peer-to-peer VPN](https://peervpn.net/)
+       Original Code: https://github.com/peervpn/peervpn
+       Tutorial: https://peervpn.net/tutorial/
+
+- name: Create deb package
+  shell: "dpkg-deb --build --root-owner-group {{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}"

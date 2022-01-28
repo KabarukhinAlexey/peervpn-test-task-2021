@@ -1,0 +1,10 @@
+---
+- name: Include tasks for building source
+  include_tasks:
+    file: build.yml
+    apply:
+      tags:
+        - build
+  tags:
+    - build
+
