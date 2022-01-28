@@ -25,7 +25,7 @@
 
 - name: Copy executable file to working directory for deb package
   copy: 
-    src: "{{playbook_dir}}/_source_code/peervpn"
+    src: "{{playbook_dir}}/peervpn_source_code/peervpn"
     dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/usr/local/bin/"
 
 - name: Create control file for deb package
