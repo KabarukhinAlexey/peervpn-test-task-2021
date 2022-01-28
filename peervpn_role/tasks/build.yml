@@ -20,17 +20,17 @@
     state: directory
     mode: '0755'
   loop:
-    - "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/usr/local/bin"
-    - "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/DEBIAN"
+    - "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/usr/local/bin"
+    - "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/DEBIAN"
 
 - name: Copy executable file to working directory for deb package
   copy: 
     src: "{{playbook_dir}}/peervpn/peervpn"
-    dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/usr/local/bin/"
+    dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/usr/local/bin/"
 
 - name: Create control file for deb package
   copy:
-    dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}/DEBIAN/control"
+    dest: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}/DEBIAN/control"
     content: |
       Package: peervpn
       Version: 1.0
@@ -41,4 +41,4 @@
        Tutorial: https://peervpn.net/tutorial/
 
 - name: Create deb package
-  shell: "dpkg-deb --build --root-owner-group {{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}-{{peervpn_deb_package_architecture}}"
+  shell: "dpkg-deb --build --root-owner-group {{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}"
