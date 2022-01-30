@@ -42,3 +42,23 @@
 
 - name: Create deb package
   shell: "dpkg-deb --build --root-owner-group {{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}"
+
+# !! In the case of a repository located on the other server then the code below should be rewritten !!
+- name: Ensure that target directory in repo is exist
+  file:
+    path: "{{repo_base_path}}/{{peervpn_deb_package_architecture}}"
+    recurse: yes
+    state: directory
+    mode: '0755'
+- name: Copy package to local repo
+  copy: 
+    src: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}.deb"
+    dest: "{{repo_base_path}}/{{peervpn_deb_package_architecture}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}.deb"
+
+- name: Run dpkg-scanpackages
+  shell: "dpkg-scanpackages {{repo_base_path}}/{{peervpn_deb_package_architecture}} | gzip -9c > {{repo_base_path}}/{{peervpn_deb_package_architecture}}/Packages.gz"
+
+- name: Add localhost as packages source to file /etc/apt/sources.list
+  lineinfile:
+    dest: /etc/apt/sources.list
+    line: "deb [trusted=yes] http://{{repo_host}}/debs {{peervpn_deb_package_architecture}}/"

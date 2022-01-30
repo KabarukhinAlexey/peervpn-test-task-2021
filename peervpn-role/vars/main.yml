@@ -11,4 +11,5 @@ packages_list_for_build:
 peervpn_deb_package_version: "1.0"
 peervpn_deb_package_architecture: "amd64"
 
-repo_url: localhost
+repo_base_path: "/var/www/html"
+repo_host: localhost
