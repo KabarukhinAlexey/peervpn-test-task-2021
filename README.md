@@ -23,7 +23,7 @@ ansible-playbook play.yml --tags build
 ```
 Запуск плейбука для тестирования установки приложения согласно постановке задания.
 ```
-ansible-playbook play.yml --tags build
+ansible-playbook play.yml --tags install
 ```
 
 ## Комментарии
