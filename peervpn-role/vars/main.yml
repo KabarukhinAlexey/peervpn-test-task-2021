@@ -7,6 +7,7 @@ packages_list_for_build:
   - libcrypto++-dev
   - zlib1g-dev
   - uml-utilities
+  - apache2
 
 peervpn_deb_package_version: "1.0"
 peervpn_deb_package_architecture: "amd64"
