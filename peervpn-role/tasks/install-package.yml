@@ -1,0 +1,7 @@
+---
+- name: Install peervpn package(local repo should be already configured)
+  apt:
+    name: peervpn
+    state: present
+    update_cache: yes
+

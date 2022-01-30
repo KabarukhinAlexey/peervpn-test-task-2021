@@ -8,3 +8,10 @@
   tags:
     - build
 
+- name: Include tasks for installing package
+  include_tasks:
+    file: install-package.yml
+    apply:
+      tags:
+        - install
+  tags: [ install ]

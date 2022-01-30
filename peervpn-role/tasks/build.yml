@@ -1,6 +1,6 @@
 ---
-- name: Install packages for builaingd source code
-  package:
+- name: Install packages for building source code
+  apt:
     name: "{{ packages_list_for_build }}"
     state: present
 
@@ -56,7 +56,7 @@
     dest: "{{repo_base_path}}/{{peervpn_deb_package_architecture}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}.deb"
 
 - name: Run dpkg-scanpackages
-  shell: "dpkg-scanpackages {{repo_base_path}}/{{peervpn_deb_package_architecture}} | gzip -9c > {{repo_base_path}}/{{peervpn_deb_package_architecture}}/Packages.gz"
+  shell: "cd {{repo_base_path}} && dpkg-scanpackages {{peervpn_deb_package_architecture}} | gzip -9c > {{repo_base_path}}/{{peervpn_deb_package_architecture}}/Packages.gz"
 
 - name: Add localhost as packages source to file /etc/apt/sources.list
   lineinfile:
