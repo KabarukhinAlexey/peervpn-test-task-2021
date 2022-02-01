@@ -1,2 +1,10 @@
 ---
-# handlers file for role
+- name: Copy package to repo
+  copy:
+    src: "{{playbook_dir}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}.deb"
+    dest: "{{repo_base_path}}/{{peervpn_deb_package_architecture}}/peervpn_{{peervpn_deb_package_version}}_{{peervpn_deb_package_architecture}}.deb"
+
+- name: Run dpkg-scanpackages
+  shell:
+    cmd: "dpkg-scanpackages {{peervpn_deb_package_architecture}} | gzip -9c > {{repo_base_path}}/{{peervpn_deb_package_architecture}}/Packages.gz"
+    chdir: "{{repo_base_path}}"
