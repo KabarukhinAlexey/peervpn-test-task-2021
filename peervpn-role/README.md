@@ -1,27 +1,27 @@
 peervpn-role
 =========
 
-Ansible-роль предназначена для сборки, выкладки и установки пакета peervpn для Ubuntu Bionic
+The Ansible role is designed for building, deploying, and installing the peervpn package for Ubuntu Bionic.
 
 Role Variables
 --------------
 
 vars/main.yml
-- packages_list_for_build - список пакетов, необходимых для сборки peervpn
-- peervpn_deb_package_version - версия бинарного исполняемого deb пакета
-- peervpn_deb_package_architecture - архитектура исполняемого deb пакета
-- repo_base_path - путь, по которому располагаются пакеты репозитория. Значением переменной является "DocumentRoot Apache2 сервера" + "/debs"
-- repo_host - хост с репозиторием. По умолчанию - localhost
+- packages_list_for_build - a list of packages needed to build peervpn
+- peervpn_deb_package_version - version of the binary executable deb package
+- peervpn_deb_package_architecture - architecture of the executable deb package
+- repo_base_path - the path where the repository packages are located. The variable value is "DocumentRoot of Apache2 server" + "/debs"
+- repo_host - repository host. By default - localhost
 
 Tasks execution
 --------------
-Файл tasks/main.yml включает в себя 2 таски include_tasks с тегами build и install, которые логически соответствуют 2-м частям задания:
-- build нужен для сборки и выкладки deb пакета
-- install нужен для проверки выполнения задания путем установки из репозтория собранного пакета 
+The tasks/main.yml file includes 2 include_tasks with build and install tags, which logically correspond to the 2 parts of the task:
+- build is necessary for building and deploying the deb package
+- install is necessary to check the execution of the task by installing the compiled package from the repository
 
 Handlers
 --------------
-У данной ansible-роли есть два обработчика "Copy package to local repo" и "Run dpkg-scanpackages", которые вызываются при новой успешной сборке deb-пакета. Обработифки копируют deb-пакет в локальный репозиторий и обновляют репозиторий командой dpkg-scanpackages
+This Ansible role has two handlers "Copy package to local repo" and "Run dpkg-scanpackages", which are called upon a new successful build of the deb package. The handlers copy the deb package to the local repository and update the repository with the dpkg-scanpackages command.
 
 Example Playbook
 ----------------
