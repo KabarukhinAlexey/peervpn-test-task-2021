@@ -1,43 +1,43 @@
-## Тестовое задание
-Создать обновляемый репозиторий для ubuntu bionic
+## Test Assignment
+Create an updatable repository for Ubuntu Bionic
 
-Исходные данные:
-Проект https://github.com/peervpn/peervpn
+Initial data:
+Project https://github.com/peervpn/peervpn
 
-- задача:
-собрать проект из исходников для ubuntu bionic
-запаковать полученный бинарный исполняемый файл в deb пакет, файл должен устанавливаться в /usr/local/bin/
-опубликовать deb пакет в http репозитории (gpg шифрование не требуется)
+- Task:
+Build the project from the source for Ubuntu Bionic
+Package the resulting binary executable file into a deb package, the file should be installed in /usr/local/bin/
+Publish the deb package in an HTTP repository (GPG encryption is not required)
 
-- ожидаемый результат:
-набор скриптов (программ, ansible плейбуков, т.п.) который позволяет собрать и запаковать бинарный файл в deb пакет и выложить его в репозиторий для ubuntu bionic
+- Expected result:
+A set of scripts (programs, Ansible playbooks, etc.) that allow you to build and package the binary file into a deb package and publish it to the repository for Ubuntu Bionic
 
-- верификация результата:
-полученный репозиторий подключается к ubuntu bionic и не выдаёт ошибок при вызове apt update (допускаются ошибки из-за отсутствия gpg подписи)
-собранный deb пакет устанавливается из репозитория, бинарный файл размещается в /usr/local/bin
+- Verification of the result:
+The obtained repository is connected to Ubuntu Bionic and does not give errors when calling apt update (errors due to the absence of a GPG signature are allowed)
+The compiled deb package is installed from the repository, the binary file is placed in /usr/local/bin
 
-## Инструкции по запуску плейбуков
-Запуск плейбука с тегами для сборки и выкладки собранного пакета в локальный репозиторий.
+## Instructions for running the playbooks
+Running the playbook with tags for building and publishing the built package to the local repository.
 ```
 ansible-playbook play.yml --tags build
 ```
-Запуск плейбука для тестирования установки приложения согласно постановке задания.
+Running the playbook to test the application installation according to the task statement.
 ```
 ansible-playbook play.yml --tags install
 ```
 
-## Комментарии
+## Comments
 
- Исходный код проекта peervpn написан под использование библиотеки libssl версии 1.0, которая на данный уже устарела. Для успешной сборки пакета необходимо
- - либо делать fork проекта peervpn и дорабатывать код под использование libssl 1.1, как это сделано, например, в репозитории https://github.com/BugMaster510945/peervpn 
- - либо перед сборкой установить libssl версии 1.0 (исходный код остается неизменным)
+ The source code of the peervpn project is written for the use of the libssl library version 1.0, which is already outdated. For successful package compilation, it is necessary
+ - either to fork the peervpn project and adjust the code for using libssl 1.1, as it is done, for example, in the repository https://github.com/BugMaster510945/peervpn
+ - or install libssl version 1.0 before building (the source code remains unchanged)
  
- В постановке задания говорится "собрать проект из исходников для ubuntu bionic", что скорее не подразумевает правку исходного кода, однако если бы необходимо было править исходный код, то дополнительно я бы добавил в него файл для запуска сервиса peervpn и типовой конфиг-файл peervpn.
- 
- Дополнительные комментарии по написанной ansible-роли можно найти в ее README файле внутри директории peervpn-role.
+The task statement says "build the project from sources for ubuntu bionic", which rather does not imply editing the source code, however, if it were necessary to edit the source code, I would additionally add a file to it to run the peervpn service and a standard peervpn config file.
 
-## Допущения
- - Сервер с репозиторием deb пакетов - это тот же сервер на котором происходит сборка. Если бы использовался отдельный сервер для репозитория - то код немного бы отличался.
- - Apache2 web server исталлируется в ходе выполнения playbook-а и иммет дефолтные настройки, в том числе и дефолтный DocumentRoot: "/var/www/html", который частично задается внутри переменной "repo_base_path". Настройки firewall и selinux не затрагиваются.
- - Файлы, генерируемые в ходе выполнения playbook-а в директорию с репозиторием, имеют маску "peervpn_*", которая учтена в gitignore файле
+Additional comments on the written ansible role can be found in its README file inside the peervpn-role directory.
+
+## Assumptions
+- The server with the deb package repository is the same server on which the assembly takes place. If a separate server was used for the repository, the code would be slightly different.
+- Apache2 web server is installed during the execution of the playbook and has default settings, including the default DocumentRoot: "/var/www/html", which is partially set within the "repo_base_path" variable. Firewall and selinux settings are not affected.
+- Files generated during the execution of the playbook in the repository directory have the mask "peervpn_*", which is accounted for in the gitignore file.
  
